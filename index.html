@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microcurso Avanzado: Google AI Studio para Emprendedores</title>
+    <style>
+        :root {
+            --primary-color: #4285F4; /* Google Blue */
+            --secondary-color: #34A853; /* Google Green */
+            --accent-color: #FBBC05; /* Google Yellow */
+            --danger-color: #EA4335; /* Google Red */
+            --dark-bg: #202124;
+            --light-bg: #f8f9fa;
+            --text-dark: #202124;
+            --text-light: #e8eaed;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            margin: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, var(--primary-color), #1a73e8);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0; font-size: 2.8em; font-weight: 700;
+        }
+        header p {
+            margin: 10px 0 0; font-size: 1.3em; opacity: 0.95;
+        }
+        .tabs {
+            display: flex;
+            background-color: #e8f0fe;
+            padding: 0 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .tab-button {
+            border: none; background: none; cursor: pointer; padding: 15px 18px;
+            font-size: 1em; font-weight: 600; color: var(--primary-color);
+            border-bottom: 3px solid transparent; transition: all 0.3s ease;
+        }
+        .tab-button.active, .tab-button:hover {
+            color: #0b57d0;
+            border-bottom: 3px solid #0b57d0;
+        }
+        main { padding: 30px; }
+        .module { display: none; animation: fadeIn 0.5s; }
+        .module.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .module h2 {
+            font-size: 2em; color: var(--primary-color); margin-top: 0;
+            border-bottom: 2px solid #e0e0e0; padding-bottom: 10px;
+        }
+        .module h3 {
+            font-size: 1.5em; color: var(--secondary-color); margin-top: 30px; margin-bottom: 15px;
+        }
+        .module h4 {
+            font-size: 1.2em; color: var(--text-dark); margin-top: 20px; margin-bottom: 10px; border-left: 4px solid var(--accent-color); padding-left: 10px;
+        }
+        .interactive-button {
+            background-color: var(--secondary-color); color: white; border: none;
+            padding: 12px 20px; border-radius: 5px; cursor: pointer;
+            font-size: 1em; font-weight: bold; transition: background-color 0.3s;
+        }
+        .interactive-button:hover { background-color: #2c8f45; }
+        .simulator {
+            background-color: var(--dark-bg); color: var(--text-light);
+            padding: 20px; border-radius: 8px; font-family: 'Courier New', Courier, monospace;
+            margin-top: 20px;
+        }
+        .simulator textarea {
+            width: 95%; height: 100px; background-color: #3c4043; border: 1px solid #5f6368;
+            color: var(--text-light); padding: 10px; border-radius: 4px; font-family: inherit;
+        }
+        .simulator-output {
+            margin-top: 15px; padding: 15px; background-color: #3c4043; border-radius: 4px;
+            white-space: pre-wrap; min-height: 50px; font-size: 0.95em;
+        }
+        #image-simulator-output, #video-simulator-output {
+            text-align: center;
+        }
+        #image-placeholder, #video-placeholder {
+            max-width: 80%;
+            border: 4px dashed var(--accent-color);
+            background-color: #3c4043;
+            border-radius: 8px;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+        .quiz-question { margin-bottom: 15px; }
+        .quiz-options label { display: block; margin-bottom: 8px; cursor: pointer; padding: 8px; border-radius: 4px;}
+        .quiz-options label:hover { background-color: #e8f0fe; }
+        #quiz-result { font-weight: bold; margin-top: 20px; padding: 15px; border-radius: 5px; text-align: center; }
+        footer {
+            text-align: center; padding: 20px; font-size: 0.9em; color: #777;
+            background-color: #f1f1f1;
+        }
+        .badge { background-color: var(--accent-color); color: var(--text-dark); padding: 3px 8px; border-radius: 12px; font-size: 0.8em; font-weight: 600; }
+        .key-concept { background-color: #e8f0fe; padding: 2px 6px; border-radius: 4px; font-weight: 600; color: #0b57d0; }
+        pre {
+            background-color: #f5f5f5; padding: 15px; border-radius: 5px; 
+            border: 1px solid #ddd; white-space: pre-wrap; word-wrap: break-word;
+            color: #333;
+        }
+        .security-note {
+            background-color: #fce8e6; border: 1px solid var(--danger-color); padding: 15px; border-radius: 8px; margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Microcurso Avanzado: Google AI Studio</h1>
+            <p>De la Idea a la Integración: La IA para tu Emprendimiento</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showModule('intro')">🚀 Inicio</button>
+            <button class="tab-button" onclick="showModule('text')">✍️ Texto</button>
+            <button class="tab-button" onclick="showModule('image')">🖼️ Imágenes</button>
+            <button class="tab-button" onclick="showModule('tune')">⚙️ Afinar</button>
+            <button class="tab-button" onclick="showModule('api')">🔌 API</button>
+            <button class="tab-button" onclick="showModule('build')">🏗️ Construir</button>
+            <button class="tab-button" onclick="showModule('video')">🎬 Video</button>
+            <button class="tab-button" onclick="showModule('quiz')">🧠 Quiz</button>
+        </div>
+
+        <main>
+            <div id="intro" class="module active">
+                <h2>🚀 Módulo 1: El Centro de Mando de tu IA</h2>
+                <p>Bienvenido a la versión avanzada del curso. Aquí verás a <strong>Google AI Studio</strong> no como un juguete, sino como un centro de mando para crear soluciones de IA a medida para tu negocio.</p>
+                <p>El concepto clave es el <span class="key-concept">Prompt</span>. Es la instrucción que le das a la IA. Un buen prompt es la diferencia entre una respuesta genérica y una solución brillante.</p>
+                <h3>Capacidades que exploraremos:</h3>
+                <ul>
+                    <li>Generación de Texto, Imágenes y Video.</li>
+                    <li>Afinar (Tuning) modelos para una voz de marca única.</li>
+                    <li>Construir apps con plantillas y usar la API para integrar la IA.</li>
+                </ul>
+            </div>
+
+            <div id="text" class="module">
+                <h2>✍️ Módulo 2: El Artesano de las Palabras</h2>
+                <p>Esta es la función más conocida. AI Studio te permite generar cualquier tipo de texto. La clave está en el tipo de prompt que uses.</p>
+                <h4>Ejemplo de un Prompt Estructurado:</h4>
+                <p>Imagina que quieres clasificar el feedback de tus clientes. Le das a la IA estos ejemplos:</p>
+                <pre><code>Input: ¡La entrega fue súper rápida y el producto es genial!
+Output: {"sentimiento": "positivo", "tema": "entrega y producto"}</code></pre>
+                <p>Y la IA aprende el formato para nuevas entradas.</p>
+            </div>
+
+            <div id="image" class="module">
+                <h2>🖼️ Módulo 3: El Artista Digital</h2>
+                <p>AI Studio puede crear imágenes a partir de tus descripciones de texto <span class="key-concept">(Text-to-Image)</span>. Esto es revolucionario para emprendedores: puedes crear logos, mockups de productos, imágenes para redes sociales o arte conceptual.</p>
+                <h4>Ideas para Emprendedores:</h4>
+                <ul>
+                    <li><b>Visualización de Productos:</b> "Mockup fotorrealista de una botella de vino con una etiqueta que muestra un lobo aullando a la luna".</li>
+                    <li><b>Marketing de Contenidos:</b> "Ilustración 3D para un blog sobre ahorro, un cohete despegando de una alcancía con forma de cerdito".</li>
+                </ul>
+            </div>
+
+            <div id="tune" class="module">
+                <h2>⚙️ Módulo 4: El Entrenador Personal de tu IA</h2>
+                <p><span class="key-concept">Afinar (Tuning)</span> un modelo significa que lo re-entrenas con tus propios datos para que se especialice en una tarea o adopte un estilo específico, como la voz de tu marca.</p>
+                <h4>El Proceso de Afinar (simplificado):</h4>
+                <ol>
+                    <li><b>Preparar los Datos:</b> Creas un archivo con muchos ejemplos de alta calidad (ej. preguntas de clientes y tus respuestas ideales).</li>
+                    <li><b>Subir y Entrenar:</b> Subes el archivo a AI Studio para que el modelo "estudie" tu material.</li>
+                    <li><b>Probar y Usar:</b> Obtienes un nuevo modelo "personalizado" que habla con tu estilo y conocimiento.</li>
+                </ol>
+            </div>
+
+            <div id="api" class="module">
+                <h2>🔌 Módulo 5: El Integrador de Sistemas</h2>
+                <p>La <span class="key-concept">API</span> te permite "llamar" a tu modelo de IA desde tu sitio web o aplicación. Es el puente entre la experimentación y una aplicación de negocio real.</p>
+                <div class="security-note">
+                    <h4>⚠️ Nota de Seguridad Importante</h4>
+                    <p>Tu clave de API es secreta. <b>Nunca la compartas públicamente.</b></p>
+                </div>
+            </div>
+
+            <div id="build" class="module">
+                <h2>🏗️ Módulo 6: Construir con Plantillas</h2>
+                <p>Si el prompt libre es como cocinar sin receta, la sección 'Construir' de AI Studio te da las <span class="key-concept">recetas probadas</span> de los mejores chefs. Son plantillas pre-configuradas para las tareas más comunes.</p>
+                <p><b>Beneficio para emprendedores:</b> Acelera drásticamente el desarrollo. En lugar de empezar de cero, partes de una base sólida y probada para crear:</p>
+                <ul>
+                    <li><b>Chatbots de conversación:</b> Para atención al cliente o guías interactivas.</li>
+                    <li><b>Preguntas y Respuestas (Q&A):</b> Sube un documento (un manual, un informe) y la IA responderá preguntas basadas en él.</li>
+                    <li><b>Extracción de datos:</b> Extrae información clave de textos largos de forma estructurada.</li>
+                </ul>
+            </div>
+
+            <div id="video" class="module">
+                <h2>🎬 Módulo 7: Creación de Video con Veo</h2>
+                <p>Aquí entramos en la nueva era de la creación de contenido. <strong>Veo</strong> es el modelo de IA más avanzado de Google, diseñado para generar video de alta calidad a partir de texto.</p>
+                <p><b>Nota importante:</b> La generación de video es una tecnología de vanguardia. A día de hoy, Veo se está implementando en productos como VideoFX y puede que no esté disponible para todo el mundo directamente en AI Studio. Este módulo te prepara para cuando lo esté.</p>
+                <h3>Capacidades de Veo:</h3>
+                <ul>
+                    <li>Genera videos de más de un minuto en resolución 1080p.</li>
+                    <li>Entiende términos cinematográficos como "timelapse" o "toma aérea".</li>
+                    <li>Mantiene la consistencia de personas, animales y objetos a lo largo del video.</li>
+                </ul>
+                <h4>Casos de Uso para Emprendedores:</h4>
+                <ul>
+                    <li><b>Anuncios para Redes Sociales:</b> "Un video corto y dinámico mostrando a una persona usando felizmente mi producto en una playa soleada."</li>
+                    <li><b>Visualización de Prototipos:</b> "Un video conceptual de cómo se usaría mi aplicación móvil, mostrando las transiciones entre pantallas."</li>
+                    <li><b>Contenido Único:</b> "Un dron vuela sobre un bosque de pinos al amanecer, toma aérea, niebla ligera."</li>
+                </ul>
+                <div class="simulator">
+                    <label for="prompt-input-video"><b>Simulador de Prompt de Video:</b></label>
+                    <textarea id="prompt-input-video" placeholder="Prueba: 'Un robot amigable saludando a la cámara en una oficina futurista, estilo cinematográfico'"></textarea>
+                    <button class="interactive-button" onclick="runVideoSimulator()">Generar Video (Simulado)</button>
+                    <div id="video-simulator-output" class="simulator-output">
+                        <img id="video-placeholder" src="https://placehold.co/600x338/3c4043/e8eaed?text=El+video+simulado+aparecerá+aquí" alt="Placeholder de video generado">
+                        <p id="video-caption" style="margin-top:10px; font-style: italic;"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="quiz" class="module">
+                <h2>🧠 Módulo 8: Quiz Final</h2>
+                <p>Demuestra tus conocimientos de experto en AI Studio.</p>
+                <div id="quiz-form">
+                    <div class="quiz-question">
+                        <p><strong>1. Quieres que la IA genere emails con el tono exacto de tu marca. ¿Qué función usarías?</strong></p>
+                        <label><input type="radio" name="q1" value="b"> Afinar (Tuning)</label>
+                    </div>
+                    <div class="quiz-question">
+                        <p><strong>2. Para crear un logo, la clave está en un buen...</strong></p>
+                        <label><input type="radio" name="q2" value="a"> Prompt de imagen descriptivo</label>
+                    </div>
+                     <div class="quiz-question">
+                        <p><strong>3. ¿Qué necesitas para usar tu modelo de IA en tu propia página web?</strong></p>
+                        <label><input type="radio" name="q3" value="c"> Una clave de API</label>
+                    </div>
+                    <div class="quiz-question">
+                        <p><strong>4. Para sacar ideas de un video de YouTube de 2 horas, ¿qué capacidad usarías?</strong></p>
+                        <label><input type="radio" name="q4" value="b"> Comprensión de video</label>
+                    </div>
+                    <div class="quiz-question">
+                        <p><strong>5. ¿Qué modelo de Google se especializa en crear video a partir de texto?</strong></p>
+                        <label><input type="radio" name="q5" value="a"> Gemini</label>
+                        <label><input type="radio" name="q5" value="b"> Veo</label>
+                    </div>
+                </div>
+                <button class="interactive-button" onclick="checkQuiz()">Corregir Quiz</button>
+                <div id="quiz-result"></div>
+            </div>
+
+        </main>
+
+        <footer>
+            <p>Curso actualizado y expandido con Gemini. <a href="https://aistudio.google.com/" target="_blank">Empieza a experimentar en Google AI Studio</a>.</p>
+        </footer>
+    </div>
+
+    <script>
+        const modules = document.querySelectorAll('.module');
+        const tabButtons = document.querySelectorAll('.tab-button');
+
+        function showModule(moduleId) {
+            modules.forEach(module => { module.classList.remove('active'); });
+            tabButtons.forEach(button => { button.classList.remove('active'); });
+            document.getElementById(moduleId).classList.add('active');
+            document.querySelector(`.tab-button[onclick="showModule('${moduleId}')"]`).classList.add('active');
+        }
+
+        function runVideoSimulator() {
+            const input = document.getElementById('prompt-input-video').value;
+            const placeholder = document.getElementById('video-placeholder');
+            const caption = document.getElementById('video-caption');
+            if (input.trim() === '') {
+                placeholder.src = `https://placehold.co/600x338/3c4043/e8eaed?text=Escribe+una+descripción`;
+                caption.innerText = "";
+                return;
+            }
+            const encodedText = encodeURIComponent(input);
+            placeholder.src = `https://placehold.co/600x338/4285F4/ffffff?text=Simulando+Video...\n${encodedText}`;
+            caption.innerText = `Prompt de Video: "${input}"`;
+        }
+
+        function checkQuiz() {
+            const answers = { q1: 'b', q2: 'a', q3: 'c', q4: 'b', q5: 'b' };
+            let score = 0;
+            const resultDiv = document.getElementById('quiz-result');
+            for (const q in answers) {
+                const selected = document.querySelector(`input[name="${q}"]:checked`);
+                if (selected && selected.value === answers[q]) {
+                    score++;
+                }
+            }
+            let resultText = `Tu puntuación: ${score} de 5.`;
+            if (score === 5) {
+                resultDiv.style.backgroundColor = '#e6f4ea'; resultDiv.style.color = '#1e8e3e';
+                resultText += " ¡Excelente! Dominas el universo de AI Studio.";
+            } else if (score >= 3) {
+                resultDiv.style.backgroundColor = '#fff8e1'; resultDiv.style.color = '#f29900';
+                resultText += " ¡Muy bien! Tienes un gran conocimiento de las herramientas.";
+            } else {
+                resultDiv.style.backgroundColor = '#fce8e6'; resultDiv.style.color = '#d93025';
+                resultText += " ¡Sigue repasando! La práctica te hará un experto.";
+            }
+            resultDiv.innerText = resultText;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => { showModule('intro'); });
+    </script>
+
+</body>
+</html>
